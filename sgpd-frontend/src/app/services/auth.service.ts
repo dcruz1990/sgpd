@@ -18,7 +18,9 @@ export class AuthService {
 
   decodedToken;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+
+  }
 
   login(data: any) {
     return this.http.post(environment.apiUrl + 'auth/login/', data).pipe(
@@ -57,6 +59,10 @@ export class AuthService {
 
     }
     return throwError(errorMessage);
+  }
+
+  getCurrentLoginStatus() {
+    return this.$loginStatus.asObservable()
   }
 
 }

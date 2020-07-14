@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -10,7 +10,7 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   loginMode = true
 
@@ -23,8 +23,14 @@ export class AppComponent {
   isLoggedIn
 
   constructor(private breakpointObserver: BreakpointObserver, private auth: AuthService) {
-    this.auth.loginStatusObs.subscribe(status => this.isLoggedIn = status)
+
   }
 
   title = 'sgpd-frontend';
+
+  ngOnInit() {
+    this.isLoggedIn = this.auth.getCurrentLoginStatus()
+  }
+
+
 }
