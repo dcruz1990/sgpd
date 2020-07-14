@@ -1,0 +1,7 @@
+django_sgpd/db.sqlite3
+django_sgpd/.mypy_cache
+sgpd-frontend/node_modules
+__pycache__
+venv
+.vscode
+
