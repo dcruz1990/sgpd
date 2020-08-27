@@ -27,9 +27,6 @@ class MeterTestCase(TestCase):
         Reading.objects.create(date=date(2019, 8, 17),
                                reading=10,
                                for_meter=Meter.objects.get(name="TestMeter"))
-        Reading.objects.create(date=date(2019, 8, 18),
-                               reading=40,
-                               for_meter=Meter.objects.get(name="TestMeter"))
         Reading.objects.create(date=date(2019, 10, 19),
                                reading=50,
                                for_meter=Meter.objects.get(name="TestMeter"))
@@ -41,7 +38,7 @@ class MeterTestCase(TestCase):
         """Meter can return their total consumption"""
         meter = Meter.objects.get(name="TestMeter")
         self.assertIs(meter.totalConsumptionAtMonth(date(2019, 10, 19).month),
-                      10)
+                      40)
 
     def test_meter_return_correct_percentage_of_consumption(self):
         """Return the percentage of consumption"""
@@ -54,7 +51,7 @@ class MeterTestCase(TestCase):
             year=2020, month=8, day=16), for_meter=Meter.objects.get(name="MyMeter"))
 
         with self.assertRaises(ValueError):
-            Reading.objects.create(reading=-15, date=date(
+            Reading.objects.create(reading=15, date=date(
                 year=2020, month=8, day=17), for_meter=Meter.objects.get(name="MyMeter"))
 
 
