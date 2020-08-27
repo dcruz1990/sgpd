@@ -10,6 +10,7 @@ class MeterTests(APITestCase):
     def setUp(self):
         user = User.objects.create(username='dcruz')
         self.client.force_authenticate(user=user)
+        
     
     def test_get_meter_list(self):
         """
@@ -18,3 +19,12 @@ class MeterTests(APITestCase):
         url = "/api/meters/"
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_new_meter(self):
+        """
+        And we can create new meters 
+        """
+        data = {'name': 'DabApps'}
+        url = "/api/meters/"
+        response = self.client.post(url, data)
+        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
