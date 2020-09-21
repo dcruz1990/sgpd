@@ -5,11 +5,14 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
 
+from energia.models import Ueb
+
 class MeterTests(APITestCase):
     
     def setUp(self):
         user = User.objects.create(username='dcruz')
         self.client.force_authenticate(user=user)
+        Ueb.objects.create(name="TestUeb")
         
     
     def test_get_meter_list(self):
@@ -24,7 +27,10 @@ class MeterTests(APITestCase):
         """
         And we can create new meters 
         """
-        data = {'name': 'DabApps'}
+        data = {'name': 'TestMeter',
+        'ueb': 1,
+        'day_plan': 10,
+        'month_plan': 300 }
         url = "/api/meters/"
         response = self.client.post(url, data)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
