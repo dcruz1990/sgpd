@@ -10,7 +10,7 @@ from energia.models import Ueb
 class MeterTests(APITestCase):
     
     def setUp(self):
-        user = User.objects.create(username='dcruz')
+        user = User.objects.create(username='testuser')
         self.client.force_authenticate(user=user)
         Ueb.objects.create(name="TestUeb")
         

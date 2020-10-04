@@ -17,6 +17,9 @@ class Meter(models.Model):
     def __str__(self):
         return self.name
 
+    def readings(self):
+        return Reading.objects.filter(for_meter=self)
+
     def totalConsumptionAtDay(self, day):
         amm = []
         for reading in Reading.objects.filter(date__day=day):
@@ -65,12 +68,12 @@ class Reading(models.Model):
         if last_record is None:
             self.consumption = 0
         else:
-            # Some validation in the readings, by logic, there will be greater\
+            # Some validation in the readings, by logic, it will be greater
             #  than previous reading
             if self.reading > last_record.reading:
                 self.consumption = self.reading - last_record.reading
             else:
-                # If not, raise a ValueError (Validation Error ?) with\
+                # If not, raise a ValueError (Validation Error ?) with
                 #  some message
                 raise ValueError(
                     "La lectura que esta insertando debe ser mayor \

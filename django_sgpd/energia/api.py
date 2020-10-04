@@ -1,3 +1,5 @@
+from django.http import request
+from django.http.response import JsonResponse
 from rest_framework import viewsets
 from .serializers import MeterSerializer, UebSerializer, ReadingSerializer
 from .models import Meter, Ueb, Reading
@@ -44,6 +46,18 @@ class MeterViewSet(viewsets.ModelViewSet):
             "consumption": consumption
         })
 
+    @action(detail=True, methods=['get'], name='Get all readings')
+    def readings(self, request, pk=None):
+        meter = self.get_object()
+        read = Reading.objects.filter(for_meter=meter)
+        thereadings = ReadingSerializer(read, many=True, read_only=True).data 
+
+        return Response({
+            "id": meter.id,
+            "name": meter.name,
+            "readings": thereadings
+        })
+
 # api/ueb/id/totalconsumption/ 
 class UebViewSet(viewsets.ModelViewSet):
     queryset = Ueb.objects.all()
@@ -65,3 +79,13 @@ class ReadingViewSet(viewsets.ModelViewSet):
     queryset = Reading.objects.all()
     serializer_class = ReadingSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    # @action(detail=True, methods=['get'], description='Get readings by date for a given meter')
+    # def reading_by_date_for_meter(self, request, pk=None):
+    #     meter = self.get_object()
+    #     readings = Reading.objects.get(for_meter=meter).order_by('date')
+    #     return Response({
+    #         "Meter": meter.name,
+    #         "Readings": readings
+    #     })
+      
