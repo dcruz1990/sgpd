@@ -1,3 +1,4 @@
+from datetime import date
 from django.http import request
 from django.http.response import JsonResponse
 from rest_framework import viewsets
@@ -46,10 +47,12 @@ class MeterViewSet(viewsets.ModelViewSet):
             "consumption": consumption
         })
 
-    @action(detail=True, methods=['get'], name='Get all readings')
-    def readings(self, request, pk=None):
+    # /api/meters/id/readings_by_month/?month=default
+    @action(detail=True, methods=['get'], name='Get all readings in a given month')
+    def readings_by_month(self, request, pk=None):
+        query = request.query_params['month'] 
         meter = self.get_object()
-        read = Reading.objects.filter(for_meter=meter)
+        read = Reading.objects.filter(for_meter=meter, date__month=query).order_by('date')
         thereadings = ReadingSerializer(read, many=True, read_only=True).data 
 
         return Response({
@@ -80,12 +83,3 @@ class ReadingViewSet(viewsets.ModelViewSet):
     serializer_class = ReadingSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    # @action(detail=True, methods=['get'], description='Get readings by date for a given meter')
-    # def reading_by_date_for_meter(self, request, pk=None):
-    #     meter = self.get_object()
-    #     readings = Reading.objects.get(for_meter=meter).order_by('date')
-    #     return Response({
-    #         "Meter": meter.name,
-    #         "Readings": readings
-    #     })
-      
