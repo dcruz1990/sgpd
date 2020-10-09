@@ -6,7 +6,6 @@ from django.utils import timezone
 ''' This class contains a "service" that is nothing more \
      than a common electric meter.'''
 
-
 class Meter(models.Model):
     name = models.CharField(max_length=50)
     ueb = models.ForeignKey('ueb', on_delete=models.CASCADE)

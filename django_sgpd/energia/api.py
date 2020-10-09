@@ -15,13 +15,10 @@ class MeterViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     # /api/meters/id/consumption_at_month/
-    @action(detail=True, methods=['post'], name='Get total consumption')
+    @action(detail=True, methods=['get'], name='Get total consumption')
     def consumption_at_month(self, request, pk=None):
-        month = request.data['month']
+        month = request.query_params['month']
         meter = self.get_object()
-        # serializer = MeterSerializer(meter)
-        # return Response(serializer,
-        #                 status=status.HTTP_200_OK)
         return Response({
             "id": meter.id,
             "name": meter.name,
@@ -37,9 +34,6 @@ class MeterViewSet(viewsets.ModelViewSet):
     def consumption_at_day(self, request, pk=None):
         day = request.data['day']
         meter = self.get_object()
-        # serializer = MeterSerializer(meter)
-        # return Response(serializer,
-        #                 status=status.HTTP_200_OK)
         consumption = meter.totalConsumptionAtDay(day)
         return Response({
             "id": meter.id,
@@ -61,7 +55,7 @@ class MeterViewSet(viewsets.ModelViewSet):
             "readings": thereadings
         })
 
-# api/ueb/id/totalconsumption/ 
+# api/uebs/id/totalconsumption/ 
 class UebViewSet(viewsets.ModelViewSet):
     queryset = Ueb.objects.all()
     serializer_class = UebSerializer
@@ -70,8 +64,6 @@ class UebViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'], name='Get total consumption')
     def totalconsumption(self, request, pk=None):
         ueb = self.get_object()
-        # return Response(serializer,
-        #                 status=status.HTTP_200_OK)
         return Response({
             "name": ueb.name,
             "consumption": ueb.totalConsumptionByUEB(pk)

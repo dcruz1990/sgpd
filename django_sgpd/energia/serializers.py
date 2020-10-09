@@ -7,7 +7,7 @@ class MeterSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Meter
-        fields = ['__all__']
+        fields = '__all__'
         
 
 

@@ -24,6 +24,7 @@
           </template>
           <b-dropdown-item href="#">Perfil</b-dropdown-item>
           <b-dropdown-item href="#">Salir</b-dropdown-item>
+          
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -34,7 +35,6 @@
 <script>
 export default {
     name: 'Header'
-
 }
 </script>
 

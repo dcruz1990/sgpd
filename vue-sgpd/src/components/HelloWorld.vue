@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    etetet {msg}
+     {msg}
   </div>
 </template>
 
