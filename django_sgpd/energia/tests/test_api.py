@@ -1,15 +1,18 @@
-from django.template import context
 from os import name
-from django.http import response
-from rest_framework import status
-from rest_framework.test import APITestCase
 
-from rest_framework.authtoken.models import Token
-from rest_framework.test import APIClient
-from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.http import response
+from django.http.request import bytes_to_text
+from django.template import context
+from django.test import client
+from django.urls.base import reverse
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.test import APIClient, APITestCase
 
-from energia.models import Ueb, Reading, Meter
+from energia.models import Meter, Reading, Ueb
+
+import json
 
 
 class MeterTests(APITestCase):
@@ -62,9 +65,7 @@ class MeterTests(APITestCase):
         """ Get total consumption of ueb with id 1"""
         url = "/api/uebs/1/totalconsumption/"
         response = self.client.get(url)
-        responseContext = response.content
-        expectedContext = {"name":"TestUeb","consumption":0}
-        # TODO Finish this test
-        self.assertEqual(responseContext, JsonResponse(expectedContext).content)
-        
+        self.assertEqual(response.data, { "name" : "TestUeb" , "consumption" : 0 })
+
+
 

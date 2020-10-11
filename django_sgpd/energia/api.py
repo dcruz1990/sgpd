@@ -61,7 +61,7 @@ class UebViewSet(viewsets.ModelViewSet):
     serializer_class = UebSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    @action(detail=True, methods=['get'], name='Get total consumption')
+    @action(detail=True, methods=['get'], name='Get_total_consumption')
     def totalconsumption(self, request, pk=None):
         ueb = self.get_object()
         return Response({
