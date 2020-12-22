@@ -54,12 +54,11 @@ export default new Vuex.Store({
       userService.login(userdata.username, userdata.password).then(
         context.commit('setLoadingStatus', true)
       ).then(
-        user => {
-          context.commit('setUser', user.user);
-          context.commit('setToken', user.token)
+        token => {
+          context.commit('setToken', token)
           context.commit('setIsAuthenticate', true)
           context.commit('setLoadingStatus', false)
-          router.push('/home');
+          //router.push('/test');
         },
         data => {
           console.log(data)

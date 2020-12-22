@@ -1,12 +1,11 @@
 export const userService = {
     login,
     logout,
-    getAll,
     checkAuth,
     updateUser
 };
 
-let baseUrl = 'http://127.0.0.1:5050/api'
+let baseUrl = 'http://127.0.0.1:8000/api'
 
 function login(username, password) {
     const requestOptions = {
@@ -15,54 +14,44 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(baseUrl + '/auth/login', requestOptions)
+    return fetch(baseUrl + '/auth/login/', requestOptions)
         .then(handleResponse)
-        .then(user => {
+        .then(token => {
             // login successful if there's a jwt token in the response
-            if (user.token) {
+            console.log(token)
+            if (token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user.user));
-                localStorage.setItem('token', JSON.stringify(user.token))
+                localStorage.setItem('access', JSON.stringify(token.access))
+                localStorage.setItem('refresh', JSON.stringify(token.refresh))
             }
-            return user;
+            return token;
         })
 }
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
 }
 
-function getAll() {
-    const myheader = {
-        'Content-Type': 'Application/json'
-    }
-    const requestOptions = {
-        method: 'GET',
-        headers: myheader
-    };
-
-    return fetch(baseUrl + '/users', requestOptions).then(handleResponse);
-}
 
 function checkAuth() {
-    let token = localStorage.getItem('token')
-    if (!token) {
+    let access = localStorage.getItem('access')
+    if (!access) {
         return false
     }
     return true
 }
 
 function updateUser(userdata) {
-    let token = JSON.parse(localStorage.getItem('token'))
+    let access = JSON.parse(localStorage.getItem('access'))
     let userid = JSON.parse(localStorage.getItem("user")).id
     console.log(userid)
     const requestOptions = {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + access
         },
         body: JSON.stringify(userdata)
     };
@@ -84,10 +73,7 @@ function handleResponse(response) {
                 // console.log("esto se ejecuta")
                 // // location.reload(true);
             }
-
-
         }
-
         return data;
     });
 }

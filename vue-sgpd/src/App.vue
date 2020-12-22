@@ -34,10 +34,10 @@
         <!-- <v-spacer /> -->
 
         <v-toolbar-title>
-          <span @click.prevent="goHome">Coding In DFW Dashboard</span>
+          <span @click.prevent="goHome">Sistema Puesto Dirección PESCATUN</span>
         </v-toolbar-title>
         <v-spacer />
-        <span v-if="isAuthenticated">{{ user.fullName }}</span>
+        <span v-if="isAuthenticated">Username goes Here</span>
 
         <v-menu bottom left v-if="isAuthenticated" open-on-hover>
           <template v-slot:activator="{ on }">

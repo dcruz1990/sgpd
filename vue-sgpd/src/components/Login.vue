@@ -1,8 +1,8 @@
 <template>
   <v-card color="grey lighten-4" elevation="6" shaped>
-    <v-card-title class="title">Login</v-card-title>
+    <v-card-title class="title">Ingresar</v-card-title>
     <v-card-subtitle class="subtitle">
-      <v-col>Please, log in with your username and password</v-col>
+      <v-col>Por favor, ingresa con tu nombre de usuario y contraseña</v-col>
     </v-card-subtitle>
     <v-card-text>
       <v-form v-model="valid">
@@ -13,16 +13,16 @@
             </v-col>
           </v-row>
           <v-row align="center">
-            <v-col offset="2" lg="8" md="6">
-              <v-text-field v-model="auth.username" :rules="userRules" label="Username" required></v-text-field>
+            <v-col offset="2" sm="6" lg="8" md="6">
+              <v-text-field v-model="auth.username" :rules="userRules" label="Usuario:" required></v-text-field>
             </v-col>
           </v-row>
           <v-row>
-            <v-col offset="2" lg="8" md="6">
+            <v-col offset="2" sm="6" lg="8" md="6">
               <v-text-field
                 v-model="auth.password"
                 :rules="passwordRules"
-                label="Password"
+                label="Contraseña:"
                 required
                 type="password"
               ></v-text-field>
@@ -35,7 +35,7 @@
                 :loading="isLoading"
                 :disabled="!valid"
                 color="blue"
-              >Login</v-btn>
+              >Ingresar</v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -61,9 +61,9 @@ export default {
       flag: false,
       type: ""
     },
-    passwordRules: [v => !!v || "Password is required"],
+    passwordRules: [v => !!v || "Se requiere contraseña"],
     userRules: [
-      v => !!v || "Username is required"
+      v => !!v || "Ingrese el nombre de usuario"
       // v => /.+@.+/.test(v) || "E-mail must be valid"
     ]
   }),

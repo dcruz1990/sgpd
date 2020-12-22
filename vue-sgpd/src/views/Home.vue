@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    aaaaaa
        <Dashboard />
   </div>
 </template>
