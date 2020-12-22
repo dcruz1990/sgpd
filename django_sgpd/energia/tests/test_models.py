@@ -38,7 +38,7 @@ class MeterTestCase(TestCase):
         """Meter can return their total consumption"""
         meter = Meter.objects.get(name="TestMeter")
         self.assertIs(meter.totalConsumptionAtMonth(10),
-                      90)
+                      40)
 
     def test_meter_return_correct_percentage_of_consumption(self):
         """Return the percentage of consumption"""

@@ -44,14 +44,15 @@ class MeterTests(APITestCase):
         response = self.client.post(url, data)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Meter.objects.filter(name="TestMeter").count(), 1)
-
+   
     def test_get_readings_by_month(self):
         """ Get all readings by given month """
         url = "%s?month=10" % reverse('meter-readings-by-month', kwargs={'pk': 1}) 
         # ''/api/meters/1/readings_by_month/?month=10'
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
+    
+   
     def test_uebs_endpoint_works(self):
         """ Get all uebs"""
         url = reverse('ueb-list')
@@ -64,6 +65,11 @@ class MeterTests(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, { "name" : "TestUeb" , "consumption" : 0 })
+
+    def can_delete_a_meter(self):
+        url = reverse("meter-detail") + "1/"
+        response = self.client.delete(url)
+        self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
 
     
 
