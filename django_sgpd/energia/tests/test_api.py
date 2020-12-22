@@ -11,7 +11,6 @@ from rest_framework.test import APITestCase
 from energia.models import Meter, Reading, Ueb
 
 
-
 class MeterTests(APITestCase):
 
     def setUp(self):
