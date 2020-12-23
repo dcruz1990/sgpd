@@ -53,8 +53,28 @@ class MeterTestCase(TestCase):
         with self.assertRaises(ValueError):
             Reading.objects.create(reading=15, date=date(
                 year=2020, month=8, day=17), for_meter=Meter.objects.get(name="MyMeter"))
+    
+    def test_meter_returns_correct_consumption_at_date(self):
+        Reading.objects.create(date=date(
+            year=2020, month=11, day=1), reading=101,
+        for_meter=Meter.objects.get(name="MyMeter"))
+        
+        Reading.objects.create(date=date(
+            year=2020, month=11, day=1), reading=200,
+        for_meter=Meter.objects.get(name="MyMeter"))
+        
+        Reading.objects.create(date=date(
+            year=2020, month=11, day=1), reading=300,
+        for_meter=Meter.objects.get(name="MyMeter"))
+        
+        meter = Meter.objects.get(name="TestMeter")
+
+        self.assertEqual(meter.totalConsumptionAtDate(date(
+            year=2020, month=11, day=1)), 199)
+
+    
 
 
-class ReadingTestCase(TestCase):
-    def setUp(self):
-        pass
+
+
+

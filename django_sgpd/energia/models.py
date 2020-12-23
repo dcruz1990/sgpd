@@ -16,14 +16,12 @@ class Meter(models.Model):
     def __str__(self):
         return self.name
 
-    def readings(self):
-        return Reading.objects.filter(for_meter=self)
 
-    def totalConsumptionAtDay(self, day):
-        amm = []
-        for reading in Reading.objects.filter(date__day=day):
-            amm.append(reading.consumption)
-        return sum(amm)
+    def totalConsumptionAtDate(self, given_date):
+        consumption_list = []
+        for reading in Reading.objects.filter(date=given_date):
+            consumption_list.append(reading.consumption)
+        return sum(consumption_list)
 
     def consumptionPercentage(self, month):
         return (self.totalConsumptionAtMonth(month) * 100) / self.month_plan
@@ -70,7 +68,7 @@ class Reading(models.Model):
             # Some validation in the readings, by logic, it will be greater
             #  than previous reading
             if self.reading > last_record.reading:
-                self.consumption = self.reading - last_record.reading
+                self.consumption =  self.reading - last_record.reading 
             else:
                 # If not, raise a ValueError (Validation Error ?) with
                 #  some message
